@@ -7,16 +7,14 @@ public class Day1 : AdventDay
   {
     string dirs = input.GetEverything();
 
-    long lefts = 0;
-    long rights = 0;
+    int chars = 0;
 
     foreach (char c in dirs)
     {
-      if (c == '(') lefts += 1;
-      if (c == ')') rights += 1;
+      chars++;
+      if (c == '(') Part1Number += 1;
+      if (c == ')') Part1Number -= 1;
+      if (Part1Number == -1 && Part2Number == 0) Part2Number = chars;
     }
-
-    Part1Number = lefts - rights;
-    Part2Number = lefts * rights; // just as a guess :3
   }
 }

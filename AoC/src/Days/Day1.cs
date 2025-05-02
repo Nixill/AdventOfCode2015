@@ -1,4 +1,3 @@
-
 namespace Nixill.AdventOfCode;
 
 public class Day1 : AdventDay

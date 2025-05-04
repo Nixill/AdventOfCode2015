@@ -10,14 +10,16 @@ public static class Program
 
   static void Main(string[] args)
   {
-    string which = "";
+    // string which = "";
 
-    if (args.Any()) which = args.First();
-    else
-    {
-      Console.Write("Which day's program should be run? (Enter a number): ");
-      which = Console.ReadLine()!;
-    }
+    // if (args.Any()) which = args.First();
+    // else
+    // {
+    //   Console.Write("Which day's program should be run? (Enter a number): ");
+    //   which = Console.ReadLine()!;
+    // }
+
+    string which = "latest";
 
     Type? dayType = null;
     string ns = typeof(Program).Namespace.AssignTo(out var nsQuestion) == null ? "" : $"{nsQuestion}.";

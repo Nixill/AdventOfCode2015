@@ -10,8 +10,10 @@ public class Day6 : AdventDay
 
   public override void Run(StreamReader input)
   {
-    Grid<bool> lights = new Grid<bool>(1000, 1000, false);
-    int count = 0;
+    Grid<bool> lights1 = new Grid<bool>(1000, 1000, false);
+    Grid<int> lights2 = new Grid<int>(1000, 1000, 0);
+    int count1 = 0;
+    int count2 = 0;
 
     D6Instruction[] instructions = input.GetLines()
       .Select(l => Instruction.Match(l))
@@ -36,20 +38,31 @@ public class Day6 : AdventDay
       {
         for (int y = inst.TopLeft.Y; y <= inst.BotRight.Y; y++)
         {
-          if (lights[(x, y)]) count--;
-          lights[(x, y)] = inst.Mode switch
+          if (lights1[(x, y)]) count1--;
+          lights1[(x, y)] = inst.Mode switch
           {
             D6ToggleMode.TurnOff => false,
-            D6ToggleMode.Toggle => !lights[(x, y)],
+            D6ToggleMode.Toggle => !lights1[(x, y)],
             D6ToggleMode.TurnOn => true,
-            _ => lights[(x, y)]
+            _ => lights1[(x, y)]
           };
-          if (lights[(x, y)]) count++;
+          if (lights1[(x, y)]) count1++;
+
+          int val = lights2[(x, y)];
+          count2 -= val;
+          val = inst.Mode switch
+          {
+            D6ToggleMode.TurnOff => int.Min(0, val - 1),
+            D6ToggleMode.Toggle => val + 2,
+            D6ToggleMode.TurnOn => val + 1,
+            _ => val
+          };
+          count2 += (lights2[(x, y)] = val);
         }
       }
     }
 
-    Part1Number = count;
+    Part1Number = count1;
   }
 }
 

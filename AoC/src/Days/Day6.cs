@@ -52,7 +52,7 @@ public class Day6 : AdventDay
           count2 -= val;
           val = inst.Mode switch
           {
-            D6ToggleMode.TurnOff => int.Min(0, val - 1),
+            D6ToggleMode.TurnOff => int.Max(0, val - 1),
             D6ToggleMode.Toggle => val + 2,
             D6ToggleMode.TurnOn => val + 1,
             _ => val

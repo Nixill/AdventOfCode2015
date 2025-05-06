@@ -63,6 +63,7 @@ public class Day6 : AdventDay
     }
 
     Part1Number = count1;
+    Part2Number = count2;
   }
 }
 

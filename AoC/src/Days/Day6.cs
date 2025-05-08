@@ -1,10 +1,73 @@
 using System.Text.RegularExpressions;
 using Nixill.Collections;
 using Nixill.Objects;
+using Nixill.Utils.Extensions;
 
 namespace Nixill.AdventOfCode;
 
 public class Day6 : AdventDay
+{
+  static Regex Instruction = new(@"(toggle|turn (?:on|off)) (\d+),(\d+) through (\d+),(\d+)");
+
+  public override void Run(StreamReader input)
+  {
+    HashSet<IntVector2> litPart1 = [];
+    Dictionary<IntVector2, int> lightLevels2 = [];
+
+    D6Instruction[] instructions = input.GetLines()
+      .Select(l => Instruction.Match(l))
+      .Select(m => (m.Groups[1].Value, int.Parse(m.Groups[2].Value), int.Parse(m.Groups[3].Value),
+        int.Parse(m.Groups[4].Value), int.Parse(m.Groups[5].Value)))
+      .Select(g => new D6Instruction
+      {
+        Mode = g.Item1 switch
+        {
+          "toggle" => D6ToggleMode.Toggle,
+          "turn off" => D6ToggleMode.TurnOff,
+          "turn on" => D6ToggleMode.TurnOn,
+          _ => throw new InvalidDataException()
+        },
+        TopLeft = (int.Min(g.Item2, g.Item4), int.Min(g.Item3, g.Item5)),
+        BotRight = (int.Max(g.Item2, g.Item4), int.Max(g.Item3, g.Item5))
+      }).ToArray();
+
+    foreach (var inst in instructions)
+    {
+      for (int x = inst.TopLeft.X; x <= inst.BotRight.X; x++)
+      {
+        for (int y = inst.TopLeft.Y; y <= inst.BotRight.Y; y++)
+        {
+          IntVector2 loc = (x, y);
+          if (inst.Mode == D6ToggleMode.TurnOn)
+          {
+            litPart1.Add(loc);
+            lightLevels2.PlusOrSet(loc, 1);
+          }
+
+          if (inst.Mode == D6ToggleMode.TurnOff)
+          {
+            litPart1.Remove(loc);
+            lightLevels2.MinusOrSet(loc, 1);
+            if (lightLevels2[loc] < 0) lightLevels2[loc] = 0;
+          }
+
+          if (inst.Mode == D6ToggleMode.Toggle)
+          {
+            if (litPart1.Contains(loc)) litPart1.Remove(loc);
+            else litPart1.Add(loc);
+
+            lightLevels2.PlusOrSet(loc, 2);
+          }
+        }
+      }
+    }
+
+    Part1Number = litPart1.Count;
+    Part2Number = lightLevels2.Values.Sum();
+  }
+}
+
+public class Day6A : AdventDay
 {
   static Regex Instruction = new(@"(toggle|turn (?:on|off)) (\d+),(\d+) through (\d+),(\d+)");
 

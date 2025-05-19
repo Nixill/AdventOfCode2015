@@ -36,6 +36,7 @@ public class Day7 : AdventDay
         D7Operator.LShiftGate => (ushort)(left << value),
         D7Operator.RShiftGate => (ushort)(left >> value),
         D7Operator.PassThru => left,
+        D7Operator.OneAndGate => (ushort)(1 & right),
         _ => value // handles the Literal case too!
       };
 
@@ -55,6 +56,7 @@ public enum D7Operator
   [RegexTest(@"^(?<l>[a-z]+) RSHIFT (?<val>\d+) -> (?<out>[a-z]+)$")] RShiftGate = 5,
   [RegexTest(@"^(?<l>[a-z]+) -> (?<out>[a-z]+)$")] PassThru = 6,
   [RegexTest(@"^(?<val>\d+) -> (?<out>[a-z]+)$")] Literal = 7,
+  [RegexTest(@"1 AND (?<r>[a-z]+) -> (?<out>[a-z]+)$")] OneAndGate = 8,
   Invalid = 0
 }
 
@@ -83,6 +85,9 @@ public readonly struct D7Instruction
         break;
       case D7Operator.NotGate or D7Operator.PassThru:
         LeftSide = match.Groups["l"].Value;
+        break;
+      case D7Operator.OneAndGate:
+        RightSide = match.Groups["r"].Value;
         break;
       case D7Operator.LShiftGate or D7Operator.RShiftGate:
         LeftSide = match.Groups["l"].Value;

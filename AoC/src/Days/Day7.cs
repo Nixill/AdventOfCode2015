@@ -38,6 +38,8 @@ public class Day7 : AdventDay
         D7Operator.PassThru => left,
         _ => value // handles the Literal case too!
       };
+
+      Values[inst.Output] = value;
     }
 
     Part1Number = Values["a"];

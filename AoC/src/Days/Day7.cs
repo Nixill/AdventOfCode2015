@@ -50,7 +50,7 @@ public enum D7Operator
 {
   [RegexTest(@"^(?<l>[a-z]+) AND (?<r>[a-z]+) -> (?<out>[a-z]+)$")] AndGate = 1,
   [RegexTest(@"^(?<l>[a-z]+) OR (?<r>[a-z]+) -> (?<out>[a-z]+)$")] OrGate = 2,
-  [RegexTest(@"^NOT (?<r>[a-z]+) -> (?<out>[a-z]+)$")] NotGate = 3,
+  [RegexTest(@"^NOT (?<l>[a-z]+) -> (?<out>[a-z]+)$")] NotGate = 3,
   [RegexTest(@"^(?<l>[a-z]+) LSHIFT (?<val>\d+) -> (?<out>[a-z]+)$")] LShiftGate = 4,
   [RegexTest(@"^(?<l>[a-z]+) RSHIFT (?<val>\d+) -> (?<out>[a-z]+)$")] RShiftGate = 5,
   [RegexTest(@"^(?<l>[a-z]+) -> (?<out>[a-z]+)$")] PassThru = 6,

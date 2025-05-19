@@ -10,6 +10,7 @@ public class Day8 : AdventDay
     string[] lines = input.GetAllLines();
 
     Part1Number = lines.Select(l => l.Length - Parse(l).Length).Sum();
+    Part2Number = lines.Select(l => Unparse(l).Length - l.Length).Sum();
   }
 
   private string Parse(string input)
@@ -44,6 +45,27 @@ public class Day8 : AdventDay
         char c4 = chars.Pop();
         yield return (char)Convert.ToInt32(new string([c3, c4]), 16);
       }
+    }
+  }
+
+  private string Unparse(string input)
+    => new string(UnparseEnum(input).ToArray());
+
+  private IEnumerable<char> UnparseEnum(string input)
+  {
+    foreach (char c in input)
+    {
+      if (c == '"')
+      {
+        yield return '\\';
+        yield return '"';
+      }
+      else if (c == '\\')
+      {
+        yield return '\\';
+        yield return '\\';
+      }
+      else yield return c;
     }
   }
 }

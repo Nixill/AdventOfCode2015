@@ -53,6 +53,7 @@ public class Day8 : AdventDay
 
   private IEnumerable<char> UnparseEnum(string input)
   {
+    yield return '"';
     foreach (char c in input)
     {
       if (c == '"')
@@ -67,5 +68,6 @@ public class Day8 : AdventDay
       }
       else yield return c;
     }
+    yield return '"';
   }
 }

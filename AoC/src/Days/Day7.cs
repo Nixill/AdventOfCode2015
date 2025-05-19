@@ -11,10 +11,8 @@ public class Day7 : AdventDay
   public override void Run(StreamReader input)
   {
     D7Instruction[] instructions = input.GetAllLines().Select(s => new D7Instruction(s)).ToArray();
-    ushort a = Evaluate(instructions);
-
-    Part1Number = a;
-    Part2Number = Evaluate(instructions.Where(i => i.Output != "b").Append(new D7Instruction($"{a} -> b")));
+    Part1Number = Evaluate(instructions);
+    Part2Number = Evaluate(instructions.Where(i => i.Output != "b").Append(new D7Instruction($"{Part1Number} -> b")));
   }
 
   private ushort Evaluate(IEnumerable<D7Instruction> instructions)

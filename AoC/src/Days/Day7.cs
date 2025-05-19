@@ -10,17 +10,25 @@ public class Day7 : AdventDay
 {
   public override void Run(StreamReader input)
   {
-    List<D7Instruction> Instructions = input.GetAllLines().Select(s => new D7Instruction(s)).ToList();
+    D7Instruction[] instructions = input.GetAllLines().Select(s => new D7Instruction(s)).ToArray();
+    ushort a = Evaluate(instructions);
+
+    Part1Number = a;
+  }
+
+  private ushort Evaluate(IEnumerable<D7Instruction> instructions)
+  {
+    List<D7Instruction> list = instructions.ToList();
     Dictionary<string, ushort> Values = [];
 
-    while (Instructions.Count > 0)
+    while (list.Count > 0)
     {
-      D7Instruction inst = Instructions.Pop();
+      D7Instruction inst = list.Pop();
 
       if ((inst.LeftSide != null && !Values.ContainsKey(inst.LeftSide))
         || (inst.RightSide != null && !Values.ContainsKey(inst.RightSide)))
       {
-        Instructions.Add(inst);
+        list.Add(inst);
         continue;
       }
 
@@ -43,7 +51,7 @@ public class Day7 : AdventDay
       Values[inst.Output] = value;
     }
 
-    Part1Number = Values["a"];
+    return Values["a"];
   }
 }
 

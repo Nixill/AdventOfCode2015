@@ -14,6 +14,7 @@ public class Day7 : AdventDay
     ushort a = Evaluate(instructions);
 
     Part1Number = a;
+    Part2Number = Evaluate(instructions.Where(i => i.Output != "b").Append(new D7Instruction($"{a} -> b")));
   }
 
   private ushort Evaluate(IEnumerable<D7Instruction> instructions)
